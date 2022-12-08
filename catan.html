@@ -20,28 +20,37 @@
 
 <body>
     <script>
-        // constants
-        const CELLSIZE = 128;
-
+        
         // canvas and context
         let canvas = document.createElement("canvas");
         document.body.appendChild(canvas);
         let ctx = canvas.getContext("2d");
-
+        
         // dimensions
         let height = document.documentElement.clientHeight;
         let width = document.documentElement.clientWidth;
         canvas.height = height;
         canvas.width = width;
-        let xOffset = width / 4;
-        let yOffset = height / 4;
+
+        let boardSize = height;
+        let CELLSIZE = boardSize / 8;
+
+        if (height>width) {
+            boardSize = width;
+            CELLSIZE = width / 15 * Math.sqrt(3);
+        }
+
+        let xOffset = Math.sqrt(3) * CELLSIZE / 2
+        let yOffset = CELLSIZE;
+        
+        // constants
 
         ctx.fillStyle = "cornflowerblue";
         ctx.fillRect(0, 0, width, height);
 
         function drawHexagon(x, y, color, number) {
-            let w = Math.sqrt(3) * CELLSIZE / 2;
-            let h = 2 * CELLSIZE / 2;
+            let w = Math.sqrt(3) * CELLSIZE;
+            let h = 2 * CELLSIZE;
             // to make the hexagons fit in between each other
             let extraOffset = 0;
             if (y % 2 == 1) {
@@ -74,9 +83,9 @@
             else {
                 ctx.fillStyle = "black";
             }
-            ctx.font = "30px Arial";
+            ctx.font = "20px Arial";
             ctx.textAlign = "center";
-            ctx.fillText(number, x * w + xOffset + extraOffset, y * (3 / 4 * h) + yOffset + 10);
+            ctx.fillText(number, x * w + xOffset + extraOffset, y * (3 / 4 * h) + yOffset + 7);
 
             // DEBUG: show the coördinates of each cell
             //ctx.fillStyle = "black";
